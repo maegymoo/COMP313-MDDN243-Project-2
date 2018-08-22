@@ -38,6 +38,7 @@ public class Player : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
+        animator.SetBool("sitting", true);
         facingRight = true;
         playerInControl = false;
         dialogueNum = 0;
@@ -61,7 +62,7 @@ public class Player : MonoBehaviour
             Flip(horizontal);
             ResetValues();
         }
-        else { PlayIntroAnimation(); }
+        else { PlayIntroAnimation(horizontal); }
 		
 	}
     private void Move(float horizontal) {
@@ -110,12 +111,13 @@ public class Player : MonoBehaviour
         jump = false;
     }
 
-    public void PlayIntroAnimation(){
+    public void PlayIntroAnimation(float horizontal){
         if(Input.GetKeyDown(KeyCode.Return)){
             dialogueNum++;
         }
         manager.ShowBox(dialogueNum);
         if(dialogueNum==5){
+            animator.SetTrigger("lookup")
             //princess falls, boy looks up then keeps reading
         }
 
@@ -125,6 +127,16 @@ public class Player : MonoBehaviour
         if(dialogueNum==9){
             //intro scene is over, player gets control of game
             playerInControl = true;
+            //when player moves
+            if (!animator.GetBool("sitting")) {
+                animator.SetBool("playerInControl", true);
+            }
+            if (Mathf.Abs(horizontal)>0 || jump)
+            {
+                animator.SetBool("sitting", false);
+            }
+
+
         }
         
     }

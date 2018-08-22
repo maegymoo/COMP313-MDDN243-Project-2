@@ -639,7 +639,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 290735190}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.4, y: -1.26, z: 0}
+  m_LocalPosition: {x: -7.72, y: -2.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 188881428}
@@ -1155,7 +1155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a6e7c26d7e54e07a95a330f9096bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraShake: {fileID: 0}
   xMin: 0
   xMax: 100
   yMin: 0
@@ -1931,7 +1930,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &1577250545
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1982,10 +1981,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dBox: {fileID: 932508789}
+  dText: {fileID: 1577250544}
   storyline:
   - Once upon a time, in a far off land, there was a boy.
   - This boy was lazing in the sun, minding his own business, yet wishing for adventure.
   - And on this day, it came.
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
   active: 0
 --- !u!1 &2007027291
 GameObject:
