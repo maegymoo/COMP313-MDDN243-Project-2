@@ -683,7 +683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2826b90f52002432bb9b176159a6c75a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 3
+  movementSpeed: 5
   groundPoints:
   - {fileID: 188881428}
   - {fileID: 1023807719}
@@ -2354,8 +2354,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdd62fcbaa64c17b6727c5159cbded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  princess: {fileID: 0}
+  speed: 9
+  princess: {fileID: 2135769547}
 --- !u!1 &888895828
 GameObject:
   m_ObjectHideFlags: 0
@@ -2560,7 +2560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9587154fe15a04c5d823d0ec3a08b7b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 4
 --- !u!61 &1047635710
 BoxCollider2D:
   m_ObjectHideFlags: 0
