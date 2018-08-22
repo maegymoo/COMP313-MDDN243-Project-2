@@ -30,7 +30,6 @@ public class DialogueManager : MonoBehaviour {
     public void ShowBox(int i){
         active = true;
         dBox.SetActive(true);
-        Debug.Log(storyline[i]);
         dText.text = storyline[i];
     }
 
