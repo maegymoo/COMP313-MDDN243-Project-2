@@ -32,7 +32,6 @@ public class Player : MonoBehaviour
     private bool attack;
     private bool magicAttack;
 
-    private bool airControl;
 
     private bool playerInControl;
 
@@ -40,8 +39,10 @@ public class Player : MonoBehaviour
     private float jumpForce;
 
     bool hasMagic;
+    bool hasSword;
 
     bool introover;
+    float timeElapsed;
 
     private int dialogueNum;
 
@@ -51,6 +52,7 @@ public class Player : MonoBehaviour
         playerInControl = false;
         hasMagic = false;
         dialogueNum = 0;
+        timeElapsed = 0;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         manager = FindObjectOfType<DialogueManager>();
@@ -69,6 +71,7 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate () {
         float horizontal = Input.GetAxis("Horizontal");
+        Debug.Log(playerInControl);
         if (playerInControl)
         {
             isGrounded = IsGrounded();
@@ -83,20 +86,34 @@ public class Player : MonoBehaviour
         
         if ((Mathf.Abs(horizontal) > 0)&&!introover)
         {
+            if (dialogueNum == 9)
+            {
+                manager.ShowBox(12)
+            }
+            else{
+                manager.ShowBox(14)
+            }
             Debug.Log("triggered to standup");
             animator.SetTrigger("standup");
             introover = true;
         }
 
 
-        if (isGrounded || airControl) {
+        if (isGrounded) {
             rb.velocity = new Vector2(horizontal * movementSpeed, rb.velocity.y);
         }
         animator.SetFloat("speed", Mathf.Abs(horizontal));
-        animator.SetBool("jump", isGrounded);
         if (isGrounded && jump){
+            animator.SetBool("jump", isGrounded);
             isGrounded = false;
             rb.AddForce(new Vector2(0, jumpForce));
+        }
+        else if(attack&&hasSword){
+            animator.SetBool("attack", attack);
+
+        }
+        else if(magicAttack&&hasMagic){
+            animator.SetBool("magic", magicAttack);
         }
     }
 
@@ -138,30 +155,32 @@ public class Player : MonoBehaviour
     }
     private void ResetValues(){
         jump = false;
+        attack = false;
+        magicAttack = false;
     }
 
     IEnumerator checkDead(){
-        //while (true) {
-            if (rb.position.y < -5)
-            {
-                manager.ShowBox(16);
-                yield return new WaitForSeconds(5);
-                SceneManager.LoadScene("Scene_Name");
-            }
-        //}
+        if (rb.position.y < -5)
+        {
+            manager.ShowBox(16);
+            yield return new WaitForSeconds(5);
+            SceneManager.LoadScene("Scene_Name");
+        }
     }
 
     public void PickUpSword(){
         animator.SetTrigger("hassword");
+        hasSword = true;
     }
 
     public void DrinkPotion(){
         hasMagic = true;
+        animator.SetTrigger("hasMagic");
     }
 
     public void PlayIntroAnimation(){
         
-        if(Input.GetKeyDown(KeyCode.Return)){
+        if(Input.GetKeyDown(KeyCode.Return)&&dialogueNum<9){
             dialogueNum++;
         }
         manager.ShowBox(dialogueNum);
@@ -180,10 +199,27 @@ public class Player : MonoBehaviour
             //beasts come down and steal princess
 
         }
-        if(dialogueNum==9){
-            //intro scene is over, player gets control of game
-            playerInControl = true;
-
+        if (dialogueNum == 9||dialogueNum==10) {
+            if (timeElapsed < 300) {
+                //intro scene is over, player gets control of game
+                if (Input.GetKeyDown(KeyCode.A)||Input.GetKeyDown(KeyCode.D)||Input.GetKeyDown(KeyCode.LeftArrow)||Input.GetKeyDown(KeyCode.RightArrow)||Input.GetKeyDown(KeyCode.Space)) {
+                    playerInControl = true;
+                }
+            }
+            else { 
+                dialogueNum++;
+                timeElapsed = 0;
+            }
+            timeElapsed++;
+            Debug.Log(timeElapsed);
+        }
+        Debug.Log(dialogueNum);
+        if (dialogueNum == 11) {
+             //intro scene is over, player gets control of game
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Space))
+            {
+                playerInControl = true;
+            }
         }
         
     }
