@@ -137,13 +137,17 @@ public class Player : MonoBehaviour
         //}
     }
 
+    public void PickUpSword(){
+        animator.SetTrigger("hassword");
+    }
+
     public void PlayIntroAnimation(){
         
         if(Input.GetKeyDown(KeyCode.Return)){
             dialogueNum++;
         }
         manager.ShowBox(dialogueNum);
-        if(dialogueNum==5){
+        if(dialogueNum==4){
             animator.SetTrigger("lookup");
             princess.TurnOnGravity();
             //princess falls, boy looks up then keeps reading
