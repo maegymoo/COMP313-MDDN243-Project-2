@@ -5,10 +5,10 @@ using UnityEngine;
 public class SwordZoneController : MonoBehaviour {
     
     private DialogueManager manager;
-    private Animator animator;
+    private Player player;
     private void Start()
     {
-        animator = GetComponent<Animator>();
+        player = FindObjectOfType<Player>();
         manager = FindObjectOfType<DialogueManager>();
     }
 
@@ -17,7 +17,8 @@ public class SwordZoneController : MonoBehaviour {
         if (other.gameObject.name == "Player")
         {
             manager.ShowBox(15);
-            animator.SetTrigger("hassword");
+            player.PickUpSword();
+            GetComponent<Renderer>().enabled = false;
         }
     }
 }
