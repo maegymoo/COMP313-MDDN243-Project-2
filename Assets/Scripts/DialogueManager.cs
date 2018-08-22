@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour {
 
-    [SerializeField]
-    public GameObject dBox;
 
-    [SerializeField]
+    public GameObject dBox;
     public Text dText;
 
     [SerializeField]
+    public string[] storyline;
+
     public bool active;
 
 	// Use this for initialization
@@ -21,16 +21,17 @@ public class DialogueManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(active&& Input.GetKeyDown(KeyCode.Return)){
-            dBox.SetActive(false);
-            active = false;
-        }
+        //if(active&& Input.GetKeyDown(KeyCode.Return)){
+           // dBox.SetActive(false);
+           // active = false;
+        //}
 	}
 
-    public void ShowBox(string dialogue){
+    public void ShowBox(int i){
         active = true;
         dBox.SetActive(true);
-        dText.text = dialogue;
+        Debug.Log(storyline[i]);
+        dText.text = storyline[i];
     }
 
 }
