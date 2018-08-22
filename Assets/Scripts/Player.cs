@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private DialogueManager manager;
+    private Princess princess;
 
     [SerializeField]
     private float movementSpeed;
@@ -34,39 +36,53 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float jumpForce;
 
+
+    bool introover;
+
     private int dialogueNum;
 
 	// Use this for initialization
-	void Start () {
-        animator.SetBool("sitting", true);
+	void Start() {
         facingRight = true;
         playerInControl = false;
         dialogueNum = 0;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         manager = FindObjectOfType<DialogueManager>();
-
+        princess = FindObjectOfType<Princess>();
+        introover = false;
+        StartCoroutine(checkDead());
 	}
 
     private void Update(){
+        
         CheckInput();
+        float horizontal = Input.GetAxis("Horizontal");
     }
 
 	// Update is called once per frame
 	void FixedUpdate () {
         float horizontal = Input.GetAxis("Horizontal");
-        isGrounded = IsGrounded();
         if (playerInControl)
         {
+            isGrounded = IsGrounded();
             Move(horizontal);
             Flip(horizontal);
             ResetValues();
         }
-        else { PlayIntroAnimation(horizontal); }
+        else { PlayIntroAnimation(); }
 		
 	}
     private void Move(float horizontal) {
-        //rb.velocity = Vector2.left;
+        
+        if ((Mathf.Abs(horizontal) > 0)&&!introover)
+        {
+            Debug.Log("triggered to standup");
+            animator.SetTrigger("standup");
+            introover = true;
+        }
+
+
         if (isGrounded || airControl) {
             rb.velocity = new Vector2(horizontal * movementSpeed, rb.velocity.y);
         }
@@ -75,7 +91,6 @@ public class Player : MonoBehaviour
         if (isGrounded && jump){
             isGrounded = false;
             rb.AddForce(new Vector2(0, jumpForce));
-
         }
     }
 
@@ -111,14 +126,30 @@ public class Player : MonoBehaviour
         jump = false;
     }
 
-    public void PlayIntroAnimation(float horizontal){
+    IEnumerator checkDead(){
+        //while (true) {
+            if (rb.position.y < -5)
+            {
+                manager.ShowBox(16);
+                yield return new WaitForSeconds(5);
+                SceneManager.LoadScene("Scene_Name");
+            }
+        //}
+    }
+
+    public void PlayIntroAnimation(){
+        
         if(Input.GetKeyDown(KeyCode.Return)){
             dialogueNum++;
         }
         manager.ShowBox(dialogueNum);
         if(dialogueNum==5){
-            animator.SetTrigger("lookup")
+            animator.SetTrigger("lookup");
+            princess.TurnOnGravity();
             //princess falls, boy looks up then keeps reading
+        }
+        if(dialogueNum==6){
+            animator.SetTrigger("lookdown");
         }
 
         if(dialogueNum==7){
@@ -127,15 +158,6 @@ public class Player : MonoBehaviour
         if(dialogueNum==9){
             //intro scene is over, player gets control of game
             playerInControl = true;
-            //when player moves
-            if (!animator.GetBool("sitting")) {
-                animator.SetBool("playerInControl", true);
-            }
-            if (Mathf.Abs(horizontal)>0 || jump)
-            {
-                animator.SetBool("sitting", false);
-            }
-
 
         }
         
