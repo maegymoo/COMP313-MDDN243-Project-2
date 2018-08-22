@@ -2354,7 +2354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdd62fcbaa64c17b6727c5159cbded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 9
+  speed: 7
   princess: {fileID: 2135769547}
 --- !u!1 &888895828
 GameObject:
