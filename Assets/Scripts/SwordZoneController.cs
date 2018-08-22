@@ -16,7 +16,7 @@ public class SwordZoneController : MonoBehaviour {
         Debug.Log("Triggered");
         if (other.gameObject.name == "Player")
         {
-            manager.ShowBox(15);
+            manager.ShowBox(17);
             player.PickUpSword();
             GetComponent<Renderer>().enabled = false;
         }

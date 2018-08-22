@@ -88,10 +88,10 @@ public class Player : MonoBehaviour
         {
             if (dialogueNum == 9)
             {
-                manager.ShowBox(12)
+                manager.ShowBox(12);
             }
             else{
-                manager.ShowBox(14)
+                manager.ShowBox(14);
             }
             Debug.Log("triggered to standup");
             animator.SetTrigger("standup");
@@ -157,6 +157,8 @@ public class Player : MonoBehaviour
         jump = false;
         attack = false;
         magicAttack = false;
+        animator.SetBool("attack", attack);
+        animator.SetBool("magic", magicAttack);
     }
 
     IEnumerator checkDead(){
