@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
+    private DialogueManager manager;
 
     [SerializeField]
     private float movementSpeed;
@@ -28,14 +29,22 @@ public class Player : MonoBehaviour
 
     private bool airControl;
 
+    private bool playerInControl;
+
     [SerializeField]
     private float jumpForce;
+
+    private int dialogueNum;
 
 	// Use this for initialization
 	void Start () {
         facingRight = true;
+        playerInControl = false;
+        dialogueNum = 0;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        manager = FindObjectOfType<DialogueManager>();
+
 	}
 
     private void Update(){
@@ -46,9 +55,13 @@ public class Player : MonoBehaviour
 	void FixedUpdate () {
         float horizontal = Input.GetAxis("Horizontal");
         isGrounded = IsGrounded();
-        Move(horizontal);
-        Flip(horizontal);
-        ResetValues();
+        if (playerInControl)
+        {
+            Move(horizontal);
+            Flip(horizontal);
+            ResetValues();
+        }
+        else { PlayIntroAnimation(); }
 		
 	}
     private void Move(float horizontal) {
@@ -57,6 +70,7 @@ public class Player : MonoBehaviour
             rb.velocity = new Vector2(horizontal * movementSpeed, rb.velocity.y);
         }
         animator.SetFloat("speed", Mathf.Abs(horizontal));
+        animator.SetBool("jump", isGrounded);
         if (isGrounded && jump){
             isGrounded = false;
             rb.AddForce(new Vector2(0, jumpForce));
@@ -94,5 +108,24 @@ public class Player : MonoBehaviour
     }
     private void ResetValues(){
         jump = false;
+    }
+
+    public void PlayIntroAnimation(){
+        if(Input.GetKeyDown(KeyCode.Return)){
+            dialogueNum++;
+        }
+        manager.ShowBox(dialogueNum);
+        if(dialogueNum==5){
+            //princess falls, boy looks up then keeps reading
+        }
+
+        if(dialogueNum==7){
+            //beasts come down and steal princess
+        }
+        if(dialogueNum==9){
+            //intro scene is over, player gets control of game
+            playerInControl = true;
+        }
+        
     }
 }
