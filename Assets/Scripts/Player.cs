@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private Animator animator;
     private DialogueManager manager;
     private Princess princess;
+    private AirMonster airMonster;
 
     [SerializeField]
     private float movementSpeed;
@@ -28,6 +29,8 @@ public class Player : MonoBehaviour
     private bool isGrounded;
 
     private bool jump;
+    private bool attack;
+    private bool magicAttack;
 
     private bool airControl;
 
@@ -36,6 +39,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float jumpForce;
 
+    bool hasMagic;
 
     bool introover;
 
@@ -45,11 +49,13 @@ public class Player : MonoBehaviour
 	void Start() {
         facingRight = true;
         playerInControl = false;
+        hasMagic = false;
         dialogueNum = 0;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         manager = FindObjectOfType<DialogueManager>();
         princess = FindObjectOfType<Princess>();
+        airMonster = FindObjectOfType<AirMonster>();
         introover = false;
         StartCoroutine(checkDead());
 	}
@@ -104,8 +110,16 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void Attack(){
+        
+    }
+
     private void CheckInput() {
         jump |= Input.GetKeyDown(KeyCode.Space);
+        attack |= Input.GetKeyDown(KeyCode.Return);
+        magicAttack |= Input.GetKeyDown(KeyCode.RightShift);
+
+
     }
 
     private bool IsGrounded() {
@@ -141,6 +155,10 @@ public class Player : MonoBehaviour
         animator.SetTrigger("hassword");
     }
 
+    public void DrinkPotion(){
+        hasMagic = true;
+    }
+
     public void PlayIntroAnimation(){
         
         if(Input.GetKeyDown(KeyCode.Return)){
@@ -152,12 +170,15 @@ public class Player : MonoBehaviour
             princess.TurnOnGravity();
             //princess falls, boy looks up then keeps reading
         }
-        if(dialogueNum==6){
+        if(dialogueNum==5){
             animator.SetTrigger("lookdown");
         }
 
         if(dialogueNum==7){
+            airMonster.StealPrincess();
+            Debug.Log("stealing princess");
             //beasts come down and steal princess
+
         }
         if(dialogueNum==9){
             //intro scene is over, player gets control of game
