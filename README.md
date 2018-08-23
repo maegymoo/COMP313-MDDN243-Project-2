@@ -25,6 +25,6 @@ No external libraries or assets were used in the creation of A Hero's Tale.
 # Technical Challenges
 
 As the developer (Maegan), the most complex technical challenge was learning Unity as I had never used it before this. Creating A Hero's Tale was basically a baptism by fire.
-None of the features in our game were particularly complex to code once I got the hang of unity, but the sheer amount of different files/components/assets meant development was time consuming (and also not very well time managed as you can see by the commit history of this repository). This project is not complete due to poor time management on both of our parts, but I think I will finish it off just for closure's sake, so please take [this commit](https://github.com/maegymoo/KennedyMaegan_AHerosTale_P2/commit/dd973c4ddb510df9ead6e7bc9c3cb09ad62413dc) as the final working copy for assessment purposes.
+None of the features in our game were particularly complex to code once I got the hang of unity, but the sheer amount of different files/components/assets meant development was time consuming (and also not very well time managed as you can see by the commit history of this repository). This project is not complete due to poor time management on both of our parts, but I think I will finish it off just for closure's sake, so please take [this commit](https://github.com/maegymoo/KennedyMaegan_AHerosTale_P2/commit/52438cc4889baf1c521dbce19a2834bc8cb0ea18) as the final working copy for assessment purposes.
 
 Thanks for playing!
