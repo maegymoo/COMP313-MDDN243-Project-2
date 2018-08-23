@@ -7,6 +7,9 @@ public class Princess : MonoBehaviour {
     private Rigidbody2D rb;
     bool kidnapped;
     float speed;
+
+
+
 	void Start () {
         kidnapped = false;
         rb = GetComponent<Rigidbody2D>();
@@ -33,7 +36,7 @@ public class Princess : MonoBehaviour {
         rb.gravityScale = 0;
         GetComponent<Collider2D>().enabled = false;
         Transform target = FindObjectOfType<BigBoss>().transform;
-        transform.position = Vector2.MoveTowards(transform.position, target.position, speed * 1.5f * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
     }
 
 	public void OnCollisionStay2D(Collision2D collision)

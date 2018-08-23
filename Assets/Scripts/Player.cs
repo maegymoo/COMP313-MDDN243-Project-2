@@ -131,8 +131,8 @@ public class Player : MonoBehaviour
 
     private void CheckInput() {
         jump |= Input.GetKeyDown(KeyCode.Space);
-        attack |= Input.GetKeyDown(KeyCode.Return);
-        magicAttack |= Input.GetKeyDown(KeyCode.RightShift);
+        attack |= Input.GetKeyDown(KeyCode.Mouse0);
+        magicAttack |= Input.GetKeyDown(KeyCode.Mouse1);
 
 
     }
@@ -174,6 +174,9 @@ public class Player : MonoBehaviour
     public void DrinkPotion(){
         hasMagic = true;
         animator.SetTrigger("hasMagic");
+    }
+    public void TakeDamage(){
+        //enter here
     }
 
     public void PlayIntroAnimation(){
