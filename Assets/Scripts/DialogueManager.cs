@@ -21,10 +21,7 @@ public class DialogueManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //if(active&& Input.GetKeyDown(KeyCode.Return)){
-           // dBox.SetActive(false);
-           // active = false;
-        //}
+        
 	}
 
     public void ShowBox(int i){

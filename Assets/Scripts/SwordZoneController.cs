@@ -13,7 +13,7 @@ public class SwordZoneController : MonoBehaviour {
     }
 
     private void OnTriggerStay2D(Collider2D other){
-        Debug.Log("Triggered");
+        
         if (other.gameObject.name == "Player")
         {
             manager.ShowBox(17);

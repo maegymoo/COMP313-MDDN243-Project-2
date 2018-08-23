@@ -5,10 +5,8 @@ using UnityEngine;
 public class InfoZoneController: MonoBehaviour {
 
     private DialogueManager manager;
-    private Player player;
     private void Start()
     {
-        player = FindObjectOfType<Player>();
         manager = FindObjectOfType<DialogueManager>();
     }
 

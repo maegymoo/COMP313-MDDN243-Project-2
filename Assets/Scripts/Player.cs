@@ -71,10 +71,10 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate () {
         float horizontal = Input.GetAxis("Horizontal");
-        Debug.Log(playerInControl);
         if (playerInControl)
         {
             isGrounded = IsGrounded();
+            CheckAttack();
             Move(horizontal);
             Flip(horizontal);
             ResetValues();
@@ -83,37 +83,30 @@ public class Player : MonoBehaviour
 		
 	}
     private void Move(float horizontal) {
-        
-        if ((Mathf.Abs(horizontal) > 0)&&!introover)
+
+        if ((Mathf.Abs(horizontal) > 0) && !introover)
         {
             if (dialogueNum == 9)
             {
                 manager.ShowBox(12);
             }
-            else{
+            else
+            {
                 manager.ShowBox(14);
             }
-            Debug.Log("triggered to standup");
             animator.SetTrigger("standup");
             introover = true;
         }
-
-
-        if (isGrounded) {
-            rb.velocity = new Vector2(horizontal * movementSpeed, rb.velocity.y);
+        if (!this.animator.GetCurrentAnimatorStateInfo(0).IsTag("attack")&&isGrounded){
+                rb.velocity = new Vector2(horizontal * movementSpeed, rb.velocity.y);
         }
+
         animator.SetFloat("speed", Mathf.Abs(horizontal));
-        if (isGrounded && jump){
+        Debug.Log(isGrounded);
+        if (isGrounded&&jump){
             animator.SetBool("jump", isGrounded);
             isGrounded = false;
             rb.AddForce(new Vector2(0, jumpForce));
-        }
-        else if(attack&&hasSword){
-            animator.SetBool("attack", attack);
-
-        }
-        else if(magicAttack&&hasMagic){
-            animator.SetBool("magic", magicAttack);
         }
     }
 
@@ -127,8 +120,13 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Attack(){
-        
+    private void CheckAttack(){
+        if(attack&&hasSword&&!this.animator.GetCurrentAnimatorStateInfo(0).IsTag("attack")){
+            animator.SetTrigger("attack");
+        }
+        if(magicAttack&&hasMagic&&!this.animator.GetCurrentAnimatorStateInfo(0).IsTag("magicAttack")){
+            animator.SetTrigger("magicAttack");
+        }
     }
 
     private void CheckInput() {
@@ -144,7 +142,7 @@ public class Player : MonoBehaviour
             foreach (Transform pt in groundPoints){
                 Collider2D[] colliders = Physics2D.OverlapCircleAll(pt.position, groundRaduis, ground);
                 foreach (Collider2D c in colliders){
-                    if (c.gameObject != gameObject){
+                    if (c.gameObject != gameObject && c.gameObject.tag == "Ground"){
                         return true;
                     }
                     
@@ -157,8 +155,6 @@ public class Player : MonoBehaviour
         jump = false;
         attack = false;
         magicAttack = false;
-        animator.SetBool("attack", attack);
-        animator.SetBool("magic", magicAttack);
     }
 
     IEnumerator checkDead(){
@@ -197,7 +193,6 @@ public class Player : MonoBehaviour
 
         if(dialogueNum==7){
             airMonster.StealPrincess();
-            Debug.Log("stealing princess");
             //beasts come down and steal princess
 
         }
@@ -213,9 +208,7 @@ public class Player : MonoBehaviour
                 timeElapsed = 0;
             }
             timeElapsed++;
-            Debug.Log(timeElapsed);
         }
-        Debug.Log(dialogueNum);
         if (dialogueNum == 11) {
              //intro scene is over, player gets control of game
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Space))
