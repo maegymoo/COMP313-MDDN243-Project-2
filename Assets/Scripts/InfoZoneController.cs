@@ -10,7 +10,7 @@ public class InfoZoneController: MonoBehaviour {
         manager = FindObjectOfType<DialogueManager>();
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.name == "Player")
         {

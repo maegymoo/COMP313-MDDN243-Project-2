@@ -18,7 +18,7 @@ public class SwordZoneController : MonoBehaviour {
         {
             manager.ShowBox(17);
             player.PickUpSword();
-            GetComponent<Renderer>().enabled = false;
+            Destroy(gameObject);
         }
     }
 }

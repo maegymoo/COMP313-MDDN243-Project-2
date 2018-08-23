@@ -18,7 +18,7 @@ public class PotionZoneController : MonoBehaviour {
         {
             manager.ShowBox(21);
             player.DrinkPotion();
-            GetComponent<Renderer>().enabled = false;
+            Destroy(gameObject);
         }
     }
 }

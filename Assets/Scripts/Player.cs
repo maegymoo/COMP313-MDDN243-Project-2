@@ -41,16 +41,22 @@ public class Player : MonoBehaviour
     bool hasMagic;
     bool hasSword;
 
+    public GameObject magicBall;
+
     bool introover;
     float timeElapsed;
+
+    float health;
 
     private int dialogueNum;
 
 	// Use this for initialization
 	void Start() {
+        health = 100;
         facingRight = true;
         playerInControl = false;
         hasMagic = false;
+        hasSword = false;
         dialogueNum = 0;
         timeElapsed = 0;
         rb = GetComponent<Rigidbody2D>();
@@ -59,13 +65,11 @@ public class Player : MonoBehaviour
         princess = FindObjectOfType<Princess>();
         airMonster = FindObjectOfType<AirMonster>();
         introover = false;
-        StartCoroutine(checkDead());
 	}
 
     private void Update(){
-        
+        CheckDead();
         CheckInput();
-        float horizontal = Input.GetAxis("Horizontal");
     }
 
 	// Update is called once per frame
@@ -102,7 +106,6 @@ public class Player : MonoBehaviour
         }
 
         animator.SetFloat("speed", Mathf.Abs(horizontal));
-        Debug.Log(isGrounded);
         if (isGrounded&&jump){
             animator.SetBool("jump", isGrounded);
             isGrounded = false;
@@ -126,13 +129,17 @@ public class Player : MonoBehaviour
         }
         if(magicAttack&&hasMagic&&!this.animator.GetCurrentAnimatorStateInfo(0).IsTag("magicAttack")){
             animator.SetTrigger("magicAttack");
+            Instantiate(magicBall, transform.position, Quaternion.identity);
         }
     }
 
     private void CheckInput() {
         jump |= Input.GetKeyDown(KeyCode.Space);
-        attack |= Input.GetKeyDown(KeyCode.Mouse0);
-        magicAttack |= Input.GetKeyDown(KeyCode.Mouse1);
+        attack |= Input.GetMouseButtonDown(0);
+        magicAttack |= Input.GetMouseButtonDown(1);
+        if(magicAttack){
+            Debug.Log("Click");
+        }
 
 
     }
@@ -157,12 +164,17 @@ public class Player : MonoBehaviour
         magicAttack = false;
     }
 
-    IEnumerator checkDead(){
+
+
+    private void CheckDead(){
         if (rb.position.y < -5)
         {
-            manager.ShowBox(16);
-            yield return new WaitForSeconds(5);
-            SceneManager.LoadScene("Scene_Name");
+            manager.ShowBox(18);
+            Time.timeScale = 0;
+        }
+        else if (health <=0){
+            manager.ShowBox(25);
+            Time.timeScale = 0;
         }
     }
 
@@ -173,10 +185,9 @@ public class Player : MonoBehaviour
 
     public void DrinkPotion(){
         hasMagic = true;
-        animator.SetTrigger("hasMagic");
     }
     public void TakeDamage(){
-        //enter here
+        health -= 20;
     }
 
     public void PlayIntroAnimation(){

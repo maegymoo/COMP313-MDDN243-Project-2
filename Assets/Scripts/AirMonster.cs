@@ -12,16 +12,21 @@ public class AirMonster : MonoBehaviour {
     public float stoppingDistance;
     public float retreatDistance;
 
+    DialogueManager manager;
+    float health;
+
     public GameObject projectile;
     private float timeBtwnShots;
     public float startTimeBtwnShots;
 
     private void Start()
     {
+        health = 100;
         timeBtwnShots = startTimeBtwnShots;
         stealing = false;
         princess = FindObjectOfType<Princess>().GetComponent<Transform>();
         player = FindObjectOfType<Player>().GetComponent<Transform>();
+        manager = FindObjectOfType<DialogueManager>();
     }
 
 	public void FixedUpdate()
@@ -35,7 +40,7 @@ public class AirMonster : MonoBehaviour {
     {
         if (other.gameObject.name == "Player")
         {
-            GetComponent<Collider2D>().enabled = true;
+            //GetComponent<Collider2D>().enabled = true;
             ChasePlayer();
             Shoot();
         }
@@ -62,6 +67,18 @@ public class AirMonster : MonoBehaviour {
             timeBtwnShots = startTimeBtwnShots;
         } else {
             timeBtwnShots -= Time.deltaTime;  
+        }
+    }
+
+    public void TakeDamage(){
+        health -= 40;
+        CheckDead();
+    }
+
+    public void CheckDead(){
+        if(health>=0){
+            manager.ShowBox(26);
+            Destroy(gameObject);
         }
     }
 
